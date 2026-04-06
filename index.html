@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach Engine — SAP America</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0f0f0e;--ink2:#555550;--ink3:#999993;
+  --paper:#fff;--paper2:#f7f6f3;--paper3:#efede8;
+  --rule:rgba(15,15,14,.09);--rule2:rgba(15,15,14,.16);
+  --blue:#1a56db;--blue-bg:#eef2ff;
+  --green:#0d6e4e;--green-bg:#ecfaf4;
+  --amber:#92400e;--amber-bg:#fffbeb;
+  --r:10px;--rsm:6px;--rpill:100px;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 6px rgba(0,0,0,.04);
+  --font:'DM Sans',-apple-system,sans-serif;
+  --mono:'DM Mono','Fira Code',monospace;
+}
+body{font-family:var(--font);background:var(--paper3);color:var(--ink);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+nav{background:var(--paper);border-bottom:1px solid var(--rule2);height:56px;display:flex;align-items:center;padding:0 2rem;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 var(--rule);}
+.nav-sap{background:var(--ink);color:var(--paper);font-size:10px;font-weight:600;letter-spacing:.08em;padding:4px 9px;border-radius:5px;text-transform:uppercase;flex-shrink:0;}
+.nav-title{font-size:14px;font-weight:500;}
+.nav-pipe{width:1px;height:18px;background:var(--rule2);}
+.nav-team{font-size:13px;color:var(--ink2);}
+.nav-right{margin-left:auto;display:flex;gap:6px;}
+.nav-chip{font-size:11px;color:var(--ink3);background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rpill);padding:3px 10px;}
+
+/* LAYOUT */
+.main{max-width:880px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+/* HERO */
+.hero{margin-bottom:2rem;}
+.hero h1{font-size:26px;font-weight:600;letter-spacing:-.03em;margin-bottom:6px;line-height:1.25;}
+.hero p{font-size:14px;color:var(--ink2);line-height:1.7;max-width:540px;}
+.steps-row{display:flex;align-items:center;gap:6px;margin-top:14px;flex-wrap:wrap;}
+.step-chip{display:flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--rule2);border-radius:var(--rpill);padding:5px 12px 5px 7px;font-size:12px;color:var(--ink2);box-shadow:0 1px 2px rgba(0,0,0,.05);}
+.chip-n{width:18px;height:18px;border-radius:50%;background:var(--paper3);border:1px solid var(--rule2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--ink2);flex-shrink:0;}
+.chip-sep{color:var(--ink3);font-size:13px;}
+
+/* CARD */
+.card{background:var(--paper);border:1px solid var(--rule2);border-radius:var(--r);padding:1.5rem;margin-bottom:10px;box-shadow:var(--sh);animation:up .3s ease both;}
+@keyframes up{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.card:nth-child(1){animation-delay:.04s;}
+.card:nth-child(2){animation-delay:.08s;}
+.card:nth-child(3){animation-delay:.12s;}
+
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--rule);}
+.sn{width:26px;height:26px;border-radius:50%;background:var(--paper2);border:1px solid var(--rule2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--ink2);flex-shrink:0;}
+.ct{font-size:15px;font-weight:600;}
+.cc{margin-left:auto;font-size:12px;color:var(--ink3);background:var(--paper2);border:1px solid var(--rule);border-radius:var(--rpill);padding:2px 10px;font-family:var(--mono);}
+
+/* FIELDS */
+.fl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px;}
+.f{margin-bottom:14px;}
+.f:last-child{margin-bottom:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:540px){.g2{grid-template-columns:1fr;}}
+input[type="text"],select,textarea{width:100%;background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rsm);color:var(--ink);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;transition:border-color .15s,background .15s,box-shadow .15s;appearance:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);background:var(--paper);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+textarea{resize:vertical;line-height:1.65;}
+
+/* ACCOUNT ROW */
+.acct-row{display:flex;gap:8px;margin-bottom:8px;}
+.acct-row input{flex:1;}
+.btn-sm{background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rsm);color:var(--ink);font-size:13px;font-family:var(--font);font-weight:500;padding:9px 16px;cursor:pointer;white-space:nowrap;transition:background .12s;}
+.btn-sm:hover{background:var(--paper3);}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;min-height:24px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule);}
+.tag{display:inline-flex;align-items:center;gap:5px;background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rpill);padding:4px 10px 4px 7px;font-size:12px;animation:pop .15s ease;}
+@keyframes pop{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.ts{font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:var(--rpill);}
+.ts.nn{background:var(--blue-bg);color:var(--blue);}
+.ts.do{background:var(--amber-bg);color:var(--amber);}
+.tx-btn{background:none;border:none;cursor:pointer;color:var(--ink3);display:flex;align-items:center;padding:0;transition:color .1s;}
+.tx-btn:hover{color:var(--ink);}
+
+/* BULK */
+.bulk{background:var(--paper2);border:1px dashed var(--rule2);border-radius:var(--rsm);padding:14px;margin-top:10px;}
+.bulk-title{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:8px;}
+.hint{font-size:11px;color:var(--ink3);margin-top:6px;line-height:1.5;}
+.divider{height:1px;background:var(--rule);margin:16px 0;}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:6px;}
+.pill{padding:6px 14px;border-radius:var(--rpill);border:1px solid var(--rule2);background:transparent;font-size:12px;font-family:var(--font);font-weight:500;cursor:pointer;color:var(--ink2);transition:all .12s;user-select:none;}
+.pill:hover{border-color:var(--ink2);color:var(--ink);}
+.pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.pill-note{font-size:11px;color:var(--ink3);margin-top:6px;}
+
+/* GENERATE CARD */
+.gen-card{background:var(--ink);border:1px solid var(--ink);border-radius:var(--r);padding:1.5rem;margin-bottom:10px;box-shadow:var(--sh);}
+.gen-card .card-head{border-bottom-color:rgba(255,255,255,.12);}
+.gen-card .sn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.6);}
+.gen-card .ct{color:var(--paper);}
+.gen-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:1.25rem;}
+.btn-gen{background:var(--paper);color:var(--ink);border:none;border-radius:var(--rsm);font-size:14px;font-family:var(--font);font-weight:600;padding:11px 22px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:8px;}
+.btn-gen:hover{background:var(--paper2);transform:translateY(-1px);}
+.btn-gen-row{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.18);border-radius:var(--rsm);font-size:13px;font-family:var(--font);padding:11px 16px;cursor:pointer;transition:all .12s;}
+.btn-ghost:hover{background:rgba(255,255,255,.08);color:var(--paper);}
+
+/* ALERTS */
+.warn{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(146,64,14,.15);border-radius:var(--rsm);padding:10px 14px;font-size:13px;margin-bottom:12px;}
+
+/* OUTPUT */
+#output{display:none;}
+.out-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;}
+.out-title{font-size:18px;font-weight:600;letter-spacing:-.02em;}
+.out-actions{display:flex;gap:8px;}
+.btn-act{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--rule2);border-radius:var(--rsm);font-size:13px;font-family:var(--font);font-weight:500;color:var(--ink);padding:9px 15px;cursor:pointer;transition:all .12s;text-decoration:none;box-shadow:0 1px 2px rgba(0,0,0,.06);}
+.btn-act:hover{background:var(--paper2);border-color:var(--ink2);}
+.btn-act.blue{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-act.blue:hover{background:#1446c0;border-color:#1446c0;}
+.btn-act.copied{background:var(--green-bg);color:var(--green);border-color:rgba(13,110,78,.2);}
+
+/* PROMPT BOX */
+.prompt-box{background:var(--paper);border:1px solid var(--rule2);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);}
+.prompt-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.prompt-toolbar-left{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);}
+.ready-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;}
+.prompt-copy{background:var(--paper);border:1px solid var(--rule2);border-radius:var(--rsm);font-size:12px;font-family:var(--font);font-weight:500;color:var(--ink);padding:5px 12px;cursor:pointer;transition:all .12s;}
+.prompt-copy:hover{background:var(--paper3);}
+.prompt-copy.copied{background:var(--green-bg);color:var(--green);border-color:rgba(13,110,78,.2);}
+.prompt-text{padding:1.25rem 1.5rem;font-family:var(--mono);font-size:12px;line-height:1.8;color:var(--ink);white-space:pre-wrap;max-height:500px;overflow-y:auto;}
+
+/* NEXT STEPS */
+.next-steps{background:var(--green-bg);border:1px solid rgba(13,110,78,.15);border-radius:var(--r);padding:1.25rem 1.5rem;margin-top:12px;}
+.next-title{font-size:13px;font-weight:600;color:var(--green);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.next-steps ol{padding-left:18px;}
+.next-steps li{font-size:13px;color:#0a4d36;margin-bottom:6px;line-height:1.6;}
+.next-steps a{color:var(--green);font-weight:600;text-decoration:underline;text-underline-offset:2px;}
+
+/* FOOTER */
+footer{text-align:center;font-size:11px;color:var(--ink3);margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--rule);}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-sap">SAP</span>
+  <span class="nav-title">Outreach Engine</span>
+  <span class="nav-pipe"></span>
+  <span class="nav-team">Tom Kizirian's Team</span>
+  <div class="nav-right">
+    <span class="nav-chip">Mill Products &amp; Mining</span>
+    <span class="nav-chip">Internal</span>
+  </div>
+</nav>
+
+<div class="main">
+
+  <div class="hero">
+    <h1>Daily outreach, built for your book.</h1>
+    <p>Add your accounts and settings below. The tool generates a ready-to-use Claude prompt — paste it in and get personalized 3-email sequences with live news for each account.</p>
+    <div class="steps-row">
+      <div class="step-chip"><div class="chip-n">1</div>Add accounts</div>
+      <span class="chip-sep">›</span>
+      <div class="step-chip"><div class="chip-n">2</div>Set preferences</div>
+      <span class="chip-sep">›</span>
+      <div class="step-chip"><div class="chip-n">3</div>Generate prompt</div>
+      <span class="chip-sep">›</span>
+      <div class="step-chip"><div class="chip-n">4</div>Paste into Claude → sequences</div>
+    </div>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="sn">1</div>
+      <div class="ct">Your details</div>
+    </div>
+    <div class="g2">
+      <div class="f">
+        <div class="fl">Your name</div>
+        <input type="text" id="rep-name" placeholder="e.g. Abhigyan" />
+      </div>
+      <div class="f">
+        <div class="fl">Industry / vertical</div>
+        <input type="text" id="industry" placeholder="e.g. Mill Products and Mining" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="sn">2</div>
+      <div class="ct">Your accounts</div>
+      <div class="cc" id="acct-count">0</div>
+    </div>
+
+    <div class="acct-row">
+      <input type="text" id="acct-name" placeholder="Account name" />
+      <select id="acct-status" style="width:130px;flex-shrink:0;">
+        <option value="Net New">Net New</option>
+        <option value="Dormant">Dormant</option>
+      </select>
+      <button class="btn-sm" onclick="addAccount()">Add</button>
+    </div>
+    <div class="f">
+      <input type="text" id="acct-notes" placeholder="Notes — current ERP, company size, prior outreach (optional)" />
+    </div>
+
+    <div class="tags" id="tags">
+      <span style="font-size:12px;color:var(--ink3);">Accounts appear here once added.</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="bulk">
+      <div class="bulk-title">Paste from spreadsheet (bulk import)</div>
+      <textarea id="bulk-paste" rows="4" placeholder="One account per line. Add status and notes with commas:&#10;&#10;Triple-S Steel Holdings, Net New, Reached out last week&#10;Poly-America, Dormant, High intent — no ERP in ZI&#10;Gerdau Ameristeel Us Inc, Net New"></textarea>
+      <div style="margin-top:8px;">
+        <button class="btn-sm" onclick="importBulk()">Import accounts</button>
+      </div>
+      <div class="hint">Format: Account Name, Status (Net New or Dormant), Notes &mdash; status and notes are optional.</div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="sn">3</div>
+      <div class="ct">Sequence settings</div>
+    </div>
+
+    <div class="f">
+      <div class="fl">Target personas <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— select all that apply</span></div>
+      <div class="pills" id="personas">
+        <button class="pill on" data-val="CFO">CFO</button>
+        <button class="pill" data-val="CIO">CIO</button>
+        <button class="pill" data-val="COO">COO</button>
+        <button class="pill" data-val="VP of Finance">VP of Finance</button>
+        <button class="pill" data-val="VP of IT">VP of IT</button>
+        <button class="pill" data-val="VP of Operations">VP of Ops</button>
+        <button class="pill" data-val="Director of IT">Director of IT</button>
+        <button class="pill" data-val="CEO / Owner">CEO / Owner</button>
+      </div>
+      <div class="pill-note">Claude picks the best-fit persona based on what it finds for each account.</div>
+    </div>
+
+    <div class="f">
+      <div class="fl">SAP lines of business <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— select all that apply</span></div>
+      <div class="pills" id="lobs">
+        <button class="pill on" data-val="Supply Chain & Manufacturing">Supply chain</button>
+        <button class="pill on" data-val="Finance & ERP">Finance / ERP</button>
+        <button class="pill" data-val="S/4HANA Migration">S/4HANA migration</button>
+        <button class="pill" data-val="HR & Workforce">HR / workforce</button>
+        <button class="pill" data-val="AI & Business Transformation">AI transformation</button>
+        <button class="pill" data-val="Analytics & Business Intelligence">Analytics / BI</button>
+        <button class="pill" data-val="Customer Experience (CX)">CX</button>
+        <button class="pill" data-val="Procurement & Spend Management">Procurement</button>
+      </div>
+      <div class="pill-note">Claude picks the most relevant 1-2 angles based on news found for each account.</div>
+    </div>
+
+    <div class="f">
+      <div class="fl">Sequence type</div>
+      <div class="pills" id="seq-type">
+        <button class="pill on" data-val="cold">Cold outreach</button>
+        <button class="pill" data-val="reactivate">Reactivation</button>
+        <button class="pill" data-val="followup">Follow-up</button>
+      </div>
+    </div>
+
+    <div class="f">
+      <div class="fl">Email style examples <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— paste examples so Claude matches your team's tone</span></div>
+      <textarea id="email-examples" rows="5" placeholder="Paste example emails or sequences from your team here. Claude will match this tone exactly..."></textarea>
+    </div>
+
+    <div class="f">
+      <div class="fl">Additional context <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— optional</span></div>
+      <textarea id="extra-ctx" rows="2" placeholder="e.g. We recently closed a deal with a similar steel company. Focus on ROI. Avoid pricing."></textarea>
+    </div>
+  </div>
+
+  <!-- Generate -->
+  <div class="gen-card">
+    <div class="card-head">
+      <div class="sn">4</div>
+      <div class="ct">Generate prompt</div>
+    </div>
+    <div class="gen-desc">Hit generate to build your personalized Claude prompt. Copy it, open claude.ai, paste and send. Claude will search for news on each account and write 3-email sequences ready for Outreach.io.</div>
+    <div id="warn-area"></div>
+    <div class="btn-gen-row">
+      <button class="btn-gen" onclick="generate()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg>
+        Generate prompt
+      </button>
+      <button class="btn-ghost" onclick="clearAll()">Clear all</button>
+    </div>
+  </div>
+
+  <!-- Output -->
+  <div id="output">
+    <div class="out-head">
+      <div class="out-title" id="out-title">Your prompt is ready</div>
+      <div class="out-actions">
+        <button class="btn-act" id="copy-top" onclick="copyPrompt('copy-top')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="4" y="4" width="7.5" height="7.5" rx="1.5"/><path d="M2 8.5v-6A.5.5 0 0 1 2.5 2h6"/></svg>
+          Copy prompt
+        </button>
+        <a class="btn-act blue" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude &rarr;</a>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-toolbar">
+        <div class="prompt-toolbar-left">
+          <div class="ready-dot"></div>
+          Prompt ready — copy and paste into Claude
+        </div>
+        <button class="prompt-copy" id="copy-toolbar" onclick="copyPrompt('copy-toolbar')">Copy</button>
+      </div>
+      <div class="prompt-text" id="prompt-text"></div>
+    </div>
+
+    <div class="next-steps">
+      <div class="next-title">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#0d6e4e" stroke-width="1.2"/><path d="M7 6.5v4M7 4.5h.01" stroke="#0d6e4e" stroke-width="1.2" stroke-linecap="round"/></svg>
+        What to do next
+      </div>
+      <ol>
+        <li><strong>Copy the prompt</strong> using the button above.</li>
+        <li>Open <a href="https://claude.ai/new" target="_blank">claude.ai</a> in a new tab — the free tier works fine.</li>
+        <li><strong>Paste and send.</strong> Claude will search for recent news on each account, write a brief, then produce a 3-email sequence for each one.</li>
+        <li>Copy the sequences into <strong>Outreach.io</strong> and you're done.</li>
+      </ol>
+    </div>
+  </div>
+
+  <footer>SAP America &nbsp;&middot;&nbsp; Tom Kizirian's team &nbsp;&middot;&nbsp; Internal use only &nbsp;&middot;&nbsp; No account data is stored or transmitted by this page</footer>
+</div>
+
+<script>
+let accounts = [];
+
+document.getElementById('personas').addEventListener('click', e => {
+  const p = e.target.closest('.pill'); if(p) p.classList.toggle('on');
+});
+document.getElementById('lobs').addEventListener('click', e => {
+  const p = e.target.closest('.pill'); if(p) p.classList.toggle('on');
+});
+document.getElementById('seq-type').addEventListener('click', e => {
+  const p = e.target.closest('.pill'); if(!p) return;
+  document.querySelectorAll('#seq-type .pill').forEach(b => b.classList.remove('on'));
+  p.classList.add('on');
+});
+
+function getOnPills(id){ return Array.from(document.querySelectorAll(`#${id} .pill.on`)).map(b=>b.dataset.val); }
+function getOnePill(id){ const a=document.querySelector(`#${id} .pill.on`); return a?a.dataset.val:''; }
+
+function addAccount(){
+  const el=document.getElementById('acct-name'), name=el.value.trim();
+  if(!name) return;
+  if(accounts.find(a=>a.name.toLowerCase()===name.toLowerCase())){ el.value=''; return; }
+  accounts.push({ name, status:document.getElementById('acct-status').value, notes:document.getElementById('acct-notes').value.trim() });
+  el.value=''; document.getElementById('acct-notes').value=''; el.focus();
+  renderTags();
+}
+
+document.getElementById('acct-name').addEventListener('keydown', e=>{ if(e.key==='Enter') addAccount(); });
+function removeAccount(i){ accounts.splice(i,1); renderTags(); }
+
+function renderTags(){
+  const el=document.getElementById('tags');
+  document.getElementById('acct-count').textContent=accounts.length+' account'+(accounts.length!==1?'s':'');
+  if(!accounts.length){ el.innerHTML='<span style="font-size:12px;color:var(--ink3);">Accounts appear here once added.</span>'; return; }
+  el.innerHTML=accounts.map((a,i)=>`
+    <span class="tag">
+      <span class="ts ${a.status==='Net New'?'nn':'do'}">${a.status==='Net New'?'NN':'DO'}</span>
+      ${esc(a.name)}
+      <button class="tx-btn" onclick="removeAccount(${i})" title="Remove">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M1.5 1.5l8 8M9.5 1.5l-8 8"/></svg>
+      </button>
+    </span>`).join('');
+}
+
+function importBulk(){
+  const raw=document.getElementById('bulk-paste').value.trim(); if(!raw) return;
+  raw.split('\n').filter(l=>l.trim()).forEach(line=>{
+    const parts=line.split(',').map(p=>p.trim()), name=parts[0];
+    if(!name||accounts.find(a=>a.name.toLowerCase()===name.toLowerCase())) return;
+    const s=(parts[1]||'').toLowerCase();
+    const status=s.includes('dormant')?'Dormant':'Net New';
+    const notes=(s.includes('dormant')||s.includes('net'))?parts.slice(2).join(', '):parts.slice(1).join(', ');
+    accounts.push({name,status,notes:notes.trim()});
+  });
+  document.getElementById('bulk-paste').value='';
+  renderTags();
+}
+
+const SEQ_DESC={ cold:'cold outreach to a net new prospect', reactivate:'reactivation of a dormant account', followup:'follow-up to prior outreach' };
+
+const BUILT_IN_STYLE=`---
+Hi Thomas,
+
+I'm reaching out from the BKV Group account team at SAP. We help services firms with AI integration, personalized service delivery, and boosting efficiency.
+
+This recent POV highlights how customers like Ameri100 and Phoenix Global use our solutions to reduce operational costs by 25%, improve delivery performance by 30%, and enhance data quality for AI initiatives.
+
+I'm looking to set up time for a no-cost analysis of your finance/operations processes — focused on working capital optimization and strategic AI integration.
+
+Do either of the following dates work?
+* Next Monday (afternoon)
+* Next Tuesday (all day)
+
+Thanks in advance,
+[Rep]
+---
+Hi Nicolas,
+
+Hope all is well. I wanted to reach out due to my recent alignment on the account team here at SAP. I wanted to connect formally over a 15-minute call either next week or the week after — not looking to throw anything at you, more on the lines of connecting and letting you use me as a resource for any needs now or later.
+
+Many leaders I speak with are re-evaluating whether their current tech gives them the visibility and agility to scale, especially around automating manual processes, reducing silos, and getting real-time insights across finance, supply chain, and workforce.
+
+Would sometime next week work for a 15-minute intro call?
+
+Best,
+[Rep]
+---
+Hi Jose,
+
+I wasn't sure if you saw my previous note. We've been having great conversations with companies about how scenario modeling and machine learning can help build a smarter organization by gaining richer insights from their data.
+
+I wanted to discuss how you folks are utilizing your data sets to guide strategic initiatives. Please let me know if you have some time for a quick chat.
+
+Respectfully,
+[Rep]
+---
+Hi Jose,
+
+I've been struggling to make contact. Given your lack of response, I can only assume you don't see value in connecting right now, or my timing is off. If it's the latter, please let me know when works better. Either way, best of luck!
+
+Thanks,
+[Rep]
+---`;
+
+function generate(){
+  const repName=document.getElementById('rep-name').value.trim()||'the rep';
+  const industry=document.getElementById('industry').value.trim()||'your industry';
+  const examples=document.getElementById('email-examples').value.trim();
+  const extra=document.getElementById('extra-ctx').value.trim();
+  const personas=getOnPills('personas');
+  const lobs=getOnPills('lobs');
+  const seqType=getOnePill('seq-type');
+  const warnArea=document.getElementById('warn-area');
+
+  if(!accounts.length){ warnArea.innerHTML='<div class="warn">Add at least one account before generating.</div>'; return; }
+  if(!personas.length){ warnArea.innerHTML='<div class="warn">Select at least one target persona.</div>'; return; }
+  if(!lobs.length){ warnArea.innerHTML='<div class="warn">Select at least one SAP line of business.</div>'; return; }
+  warnArea.innerHTML='';
+
+  const acctLines=accounts.map(a=>`- ${a.name} [${a.status}]${a.notes?' | Notes: '+a.notes:''}`).join('\n');
+  const styleSection=examples
+    ? `\nSTYLE EXAMPLES — match this tone exactly:\n---\n${examples}\n---\n`
+    : `\nSTYLE EXAMPLES — match this tone exactly:\n${BUILT_IN_STYLE}\n`;
+  const extraSection=extra?`\nAdditional context: ${extra}\n`:'';
+
+  const prompt=`You are writing outreach emails for ${repName} at SAP America, Tom Kizirian's team. Industry: ${industry}.
+
+ACCOUNTS:
+${acctLines}
+
+Personas to choose from (pick best fit per account based on research): ${personas.join(', ')}
+SAP LOBs to draw from (pick most relevant 1-2 per account based on news): ${lobs.join(', ')}
+Sequence type: ${SEQ_DESC[seqType]}
+${extraSection}
+FOR EACH ACCOUNT:
+
+STEP 1 — Search the web for news on this account from the last 90 days:
+- Earnings, revenue, or financial results
+- Leadership changes at the ${personas.join(' / ')} level
+- Expansions, acquisitions, restructuring, or cost-cutting
+- ERP or technology investments
+- Industry pressures specific to ${industry}
+Note what you find. If nothing recent exists, note that.
+
+STEP 2 — Write a 1-2 sentence brief: news found, persona selected, LOB angle.
+
+STEP 3 — Write a 3-email sequence using the style examples below as your exact tonal and structural guide:
+- Email 1 (Day 1): warm intro, mention SAP account team alignment, reference specific news if found, offer a no-pressure 15-min call, give 2 specific time options. Under 120 words.
+- Email 2 (Day 3): different angle — a relevant SAP customer result, industry trend, or LOB capability. Casual, short. Under 100 words.
+- Email 3 (Day 8): honest short breakup — acknowledge you've tried, leave the door open. Under 60 words.
+- Sign every email: ${repName}
+- Subject lines must be specific to the account or news — never generic
+- Never use: "I hope this finds you well", "synergy", "circle back", "touch base", "leverage"
+- Never ask for more than 15 minutes in Email 1
+${styleSection}
+OUTPUT FORMAT — repeat exactly for every account:
+
+===========================
+ACCOUNT: [Account Name]
+BRIEF: [research summary — persona selected — LOB angle]
+
+EMAIL 1 — Day 1
+Subject: [subject line]
+
+[body]
+
+EMAIL 2 — Day 3
+Subject: [subject line]
+
+[body]
+
+EMAIL 3 — Day 8
+Subject: [subject line]
+
+[body]
+===========================`;
+
+  document.getElementById('prompt-text').textContent=prompt;
+  document.getElementById('output').style.display='block';
+  document.getElementById('out-title').textContent=`Prompt ready — ${accounts.length} account${accounts.length!==1?'s':''}`;
+  document.getElementById('output').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function copyPrompt(btnId){
+  const text=document.getElementById('prompt-text').textContent;
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(()=>{
+    ['copy-top','copy-toolbar'].forEach(id=>{
+      const b=document.getElementById(id); if(!b) return;
+      const orig=b.innerHTML;
+      b.textContent='Copied!'; b.classList.add('copied');
+      setTimeout(()=>{ b.innerHTML=orig; b.classList.remove('copied'); },2000);
+    });
+  });
+}
+
+function clearAll(){
+  accounts=[];
+  renderTags();
+  ['rep-name','industry','email-examples','extra-ctx','bulk-paste'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('warn-area').innerHTML='';
+  document.getElementById('output').style.display='none';
+  document.getElementById('prompt-text').textContent='';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>
