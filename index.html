@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Outreach Engine — Tom Kizirian's Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0f0f0e;--ink2:#555550;--ink3:#999993;
+  --paper:#fff;--paper2:#f7f6f3;--paper3:#efede8;
+  --rule:rgba(15,15,14,.09);--rule2:rgba(15,15,14,.16);
+  --blue:#1a56db;--blue-bg:#eef2ff;--blue-tx:#1446c0;
+  --green:#0d6e4e;--green-bg:#ecfaf4;
+  --amber:#92400e;--amber-bg:#fffbeb;
+  --red:#a32d2d;--red-bg:#fdf2f2;
+  --purple:#5b21b6;--purple-bg:#f5f3ff;
+  --r:10px;--rsm:6px;--rpill:100px;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 6px rgba(0,0,0,.04);
+  --font:'DM Sans',-apple-system,sans-serif;
+  --mono:'DM Mono','Fira Code',monospace;
+}
+body{font-family:var(--font);background:var(--paper3);color:var(--ink);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+nav{background:var(--paper);border-bottom:1px solid var(--rule2);height:56px;display:flex;align-items:center;padding:0 2rem;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 var(--rule);}
+.nav-sap{background:var(--ink);color:var(--paper);font-size:10px;font-weight:600;letter-spacing:.08em;padding:4px 9px;border-radius:5px;text-transform:uppercase;flex-shrink:0;}
+.nav-title{font-size:14px;font-weight:500;}
+.nav-pipe{width:1px;height:18px;background:var(--rule2);}
+.nav-team{font-size:13px;color:var(--ink2);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;}
+.status-label{font-size:11px;color:var(--green);font-weight:500;}
+
+.tabs-wrap{background:var(--paper);border-bottom:1px solid var(--rule2);}
+.tabs{max-width:900px;margin:0 auto;padding:0 1.5rem;display:flex;}
+.tab{padding:14px 20px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none;display:flex;align-items:center;gap:6px;}
+.tab:hover{color:var(--ink);}
+.tab.active{color:var(--ink);border-bottom-color:var(--ink);}
+.tab-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:var(--rpill);background:var(--purple-bg);color:var(--purple);}
+
+.main{max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+.hero{margin-bottom:1.75rem;}
+.hero h1{font-size:24px;font-weight:600;letter-spacing:-.03em;margin-bottom:5px;line-height:1.25;}
+.hero p{font-size:14px;color:var(--ink2);line-height:1.7;max-width:560px;}
+
+.card{background:var(--paper);border:1px solid var(--rule2);border-radius:var(--r);padding:1.5rem;margin-bottom:10px;box-shadow:var(--sh);}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--rule);}
+.sn{width:26px;height:26px;border-radius:50%;background:var(--paper2);border:1px solid var(--rule2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--ink2);flex-shrink:0;}
+.ct{font-size:15px;font-weight:600;}
+.cc{margin-left:auto;font-size:12px;color:var(--ink3);background:var(--paper2);border:1px solid var(--rule);border-radius:var(--rpill);padding:2px 10px;font-family:var(--mono);}
+
+.fl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px;}
+.f{margin-bottom:14px;}
+.f:last-child{margin-bottom:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}}
+
+input[type="text"],select,textarea{width:100%;background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rsm);color:var(--ink);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;transition:border-color .15s,background .15s,box-shadow .15s;appearance:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);background:var(--paper);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+textarea{resize:vertical;line-height:1.65;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+
+.acct-row{display:flex;gap:8px;margin-bottom:8px;}
+.acct-row input{flex:1;}
+.btn-sm{background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rsm);color:var(--ink);font-size:13px;font-family:var(--font);font-weight:500;padding:9px 16px;cursor:pointer;white-space:nowrap;transition:background .12s;}
+.btn-sm:hover{background:var(--paper3);}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;min-height:24px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule);}
+.tag{display:inline-flex;align-items:center;gap:5px;background:var(--paper2);border:1px solid var(--rule2);border-radius:var(--rpill);padding:4px 10px 4px 7px;font-size:12px;}
+.ts{font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:var(--rpill);}
+.ts.nn{background:var(--blue-bg);color:var(--blue);}
+.ts.do{background:var(--amber-bg);color:var(--amber);}
+.tx-btn{background:none;border:none;cursor:pointer;color:var(--ink3);display:flex;align-items:center;padding:0;transition:color .1s;}
+.tx-btn:hover{color:var(--ink);}
+
+.bulk{background:var(--paper2);border:1px dashed var(--rule2);border-radius:var(--rsm);padding:14px;margin-top:10px;}
+.bulk-title{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:8px;}
+.hint{font-size:11px;color:var(--ink3);margin-top:6px;line-height:1.5;}
+.divider{height:1px;background:var(--rule);margin:16px 0;}
+
+.pills{display:flex;flex-wrap:wrap;gap:6px;}
+.pill{padding:6px 14px;border-radius:var(--rpill);border:1px solid var(--rule2);background:transparent;font-size:12px;font-family:var(--font);font-weight:500;cursor:pointer;color:var(--ink2);transition:all .12s;user-select:none;}
+.pill:hover{border-color:var(--ink2);color:var(--ink);}
+.pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.pill-note{font-size:11px;color:var(--ink3);margin-top:6px;}
+
+.gen-card{background:var(--ink);border-radius:var(--r);padding:1.5rem;margin-bottom:10px;box-shadow:var(--sh);}
+.gen-card .card-head{border-bottom-color:rgba(255,255,255,.12);}
+.gen-card .sn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.6);}
+.gen-card .ct{color:var(--paper);}
+.gen-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:1.25rem;}
+.btn-gen{background:var(--paper);color:var(--ink);border:none;border-radius:var(--rsm);font-size:14px;font-family:var(--font);font-weight:600;padding:11px 22px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:8px;}
+.btn-gen:hover{background:var(--paper2);transform:translateY(-1px);}
+.btn-gen:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-gen-row{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.18);border-radius:var(--rsm);font-size:13px;font-family:var(--font);padding:11px 16px;cursor:pointer;transition:all .12s;}
+.btn-ghost:hover{background:rgba(255,255,255,.08);color:var(--paper);}
+
+.warn{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(146,64,14,.15);border-radius:var(--rsm);padding:10px 14px;font-size:13px;margin-bottom:12px;}
+.err{background:var(--red-bg);color:var(--red);border:1px solid rgba(163,45,45,.15);border-radius:var(--rsm);padding:10px 14px;font-size:13px;}
+
+.prog-wrap{margin-bottom:1rem;display:none;}
+.prog-bar{height:3px;background:var(--rule2);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--ink);border-radius:2px;transition:width .4s;}
+.prog-label{font-size:11px;color:var(--ink3);margin-top:5px;}
+
+#batch-results{display:none;}
+.results-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;}
+.results-title{font-size:18px;font-weight:600;letter-spacing:-.02em;}
+.btn-act{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--rule2);border-radius:var(--rsm);font-size:13px;font-family:var(--font);font-weight:500;color:var(--ink);padding:8px 14px;cursor:pointer;transition:all .12s;text-decoration:none;box-shadow:0 1px 2px rgba(0,0,0,.05);}
+.btn-act:hover{background:var(--paper2);border-color:var(--ink2);}
+.btn-act.copied{background:var(--green-bg);color:var(--green);border-color:rgba(13,110,78,.2);}
+
+.acct-result{background:var(--paper);border:1px solid var(--rule2);border-radius:var(--r);margin-bottom:10px;overflow:hidden;box-shadow:var(--sh);}
+.acct-result-hdr{display:flex;align-items:center;gap:10px;padding:12px 1.25rem;cursor:pointer;border-bottom:1px solid var(--rule);}
+.acct-result-hdr:hover{background:var(--paper2);}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--blue);flex-shrink:0;}
+.acct-rname{font-size:13px;font-weight:600;}
+.acct-rmeta{font-size:11px;color:var(--ink2);}
+.chev{margin-left:auto;color:var(--ink3);font-size:10px;transition:transform .2s;}
+.chev.open{transform:rotate(180deg);}
+.acct-rbody{padding:1.25rem;display:none;}
+.acct-rbody.open{display:block;}
+.brief-box{background:var(--green-bg);border-radius:var(--rsm);padding:10px 14px;font-size:13px;color:var(--green);margin-bottom:12px;line-height:1.6;}
+.email-card{border:1px solid var(--rule);border-radius:var(--rsm);margin-bottom:8px;overflow:hidden;}
+.email-hdr{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.email-lbl{font-size:10px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.email-subj-prev{font-size:11px;color:var(--ink2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ecopy{background:none;border:1px solid var(--rule2);border-radius:var(--rsm);font-size:11px;color:var(--ink2);font-family:var(--font);padding:3px 8px;cursor:pointer;white-space:nowrap;transition:all .12s;}
+.ecopy:hover{background:var(--paper);color:var(--ink);}
+.ecopy.copied{background:var(--green-bg);color:var(--green);border-color:rgba(13,110,78,.2);}
+.email-subj-full{padding:7px 12px 0;font-size:12px;color:var(--ink2);font-style:italic;}
+.email-body{padding:10px 12px;font-size:13px;line-height:1.75;color:var(--ink);white-space:pre-wrap;}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--ink2);animation:pulse 1s infinite;margin-left:4px;vertical-align:middle;}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* PICK 1 */
+.framework-box{background:var(--purple-bg);border:1px solid rgba(91,33,182,.15);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
+.framework-title{font-size:12px;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.framework-cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:540px){.framework-cols{grid-template-columns:1fr;}}
+.fw-col-title{font-size:11px;font-weight:600;color:var(--purple);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;}
+.fw-item{font-size:12px;color:#4c1d95;padding:3px 0;display:flex;align-items:flex-start;gap:5px;line-height:1.5;}
+.fw-item::before{content:'›';color:var(--purple);font-weight:600;flex-shrink:0;margin-top:1px;}
+
+.linkedin-box{background:var(--blue-bg);border:1px solid rgba(26,86,219,.15);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
+.linkedin-title{font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.linkedin-body{font-size:13px;color:var(--blue-tx);line-height:1.6;}
+.linkedin-body a{color:var(--blue);font-weight:600;}
+
+#pick1-results{display:none;}
+.intel-section{margin-bottom:1.5rem;}
+.intel-section-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.intel-section-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+.email-option{background:var(--paper);border:1px solid var(--rule2);border-radius:var(--r);margin-bottom:12px;overflow:hidden;box-shadow:var(--sh);}
+.email-option-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.email-option-label{font-size:12px;font-weight:600;color:var(--ink);}
+.email-option-body{padding:14px;}
+.email-option-subject{font-size:12px;font-style:italic;color:var(--ink2);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule);}
+.email-option-text{font-size:13px;line-height:1.8;color:var(--ink);white-space:pre-wrap;}
+.email-option-copy{background:none;border:1px solid var(--rule2);border-radius:var(--rsm);font-size:11px;font-family:var(--font);color:var(--ink2);padding:4px 10px;cursor:pointer;transition:all .12s;}
+.email-option-copy:hover{background:var(--paper3);color:var(--ink);}
+.email-option-copy.copied{background:var(--green-bg);color:var(--green);border-color:rgba(13,110,78,.2);}
+.pick1-loading{font-size:13px;color:var(--ink2);padding:1.5rem 0;}
+
+footer{text-align:center;font-size:11px;color:var(--ink3);margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--rule);}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-sap">SAP</span>
+  <span class="nav-title">Outreach Engine</span>
+  <span class="nav-pipe"></span>
+  <span class="nav-team">Tom Kizirian's Team</span>
+  <div class="nav-right">
+    <div class="status-dot"></div>
+    <span class="status-label">Ready</span>
+  </div>
+</nav>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('batch',this)">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><rect x="1" y="1" width="4.5" height="4.5" rx="1"/><rect x="7.5" y="1" width="4.5" height="4.5" rx="1"/><rect x="1" y="7.5" width="4.5" height="4.5" rx="1"/><rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1"/></svg>
+      Batch outreach
+    </div>
+    <div class="tab" onclick="switchTab('pick1',this)">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5.5"/><path d="M6.5 3.5v3l2 1.5"/></svg>
+      Pick 1 deep dive
+      <span class="tab-badge">New</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ===== BATCH TAB ===== -->
+  <div class="tab-content active" id="tab-batch">
+    <div class="hero">
+      <h1>Daily outreach, built for your book.</h1>
+      <p>Add your accounts, configure settings, and get personalized 3-email sequences with live news — generated directly on this page.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="sn">1</div><div class="ct">Your details</div></div>
+      <div class="g2">
+        <div class="f"><div class="fl">Your name</div><input type="text" id="rep-name" placeholder="e.g. Abhigyan" /></div>
+        <div class="f"><div class="fl">Industry / vertical</div><input type="text" id="industry" placeholder="e.g. Mill Products and Mining" /></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="sn">2</div><div class="ct">Your accounts</div><div class="cc" id="acct-count">0</div></div>
+      <div class="acct-row">
+        <input type="text" id="acct-name" placeholder="Account name" />
+        <select id="acct-status" style="width:130px;flex-shrink:0;">
+          <option value="Net New">Net New</option>
+          <option value="Dormant">Dormant</option>
+        </select>
+        <button class="btn-sm" onclick="addAccount()">Add</button>
+      </div>
+      <div class="f"><input type="text" id="acct-notes" placeholder="Notes — ERP, company size, prior outreach (optional)" /></div>
+      <div class="tags" id="tags"><span style="font-size:12px;color:var(--ink3);">Accounts appear here once added.</span></div>
+      <div class="divider"></div>
+      <div class="bulk">
+        <div class="bulk-title">Paste from spreadsheet (bulk import)</div>
+        <textarea id="bulk-paste" rows="3" placeholder="One account per line:&#10;Triple-S Steel Holdings, Net New, Reached out last week&#10;Poly-America, Dormant, High intent"></textarea>
+        <div style="margin-top:8px;"><button class="btn-sm" onclick="importBulk()">Import accounts</button></div>
+        <div class="hint">Format: Account Name, Status (Net New or Dormant), Notes</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="sn">3</div><div class="ct">Sequence settings</div></div>
+
+      <div class="f">
+        <div class="fl">Target personas <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— select all that apply</span></div>
+        <div class="pills" id="personas">
+          <button class="pill on" data-val="CFO">CFO</button>
+          <button class="pill" data-val="CIO">CIO</button>
+          <button class="pill" data-val="COO">COO</button>
+          <button class="pill" data-val="VP of Finance">VP of Finance</button>
+          <button class="pill" data-val="VP of IT">VP of IT</button>
+          <button class="pill" data-val="VP of Operations">VP of Ops</button>
+          <button class="pill" data-val="Director of IT">Director of IT</button>
+          <button class="pill" data-val="CEO / Owner">CEO / Owner</button>
+        </div>
+        <div class="pill-note">Claude picks the best-fit persona based on what it finds for each account.</div>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px;">
+        <div class="f" style="margin-bottom:0;">
+          <div class="fl">Primary SAP LOB</div>
+          <select id="lob-primary">
+            <option value="">— select —</option>
+            <option>Supply Chain &amp; Manufacturing</option>
+            <option>Finance &amp; ERP</option>
+            <option>S/4HANA Migration</option>
+            <option>HR &amp; Workforce</option>
+            <option>AI &amp; Business Transformation</option>
+            <option>Analytics &amp; Business Intelligence</option>
+            <option>Customer Experience (CX)</option>
+            <option>Procurement &amp; Spend Management</option>
+            <option>Asset Management</option>
+            <option>Sustainability &amp; ESG</option>
+          </select>
+        </div>
+        <div class="f" style="margin-bottom:0;">
+          <div class="fl">Secondary SAP LOB <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— optional</span></div>
+          <select id="lob-secondary">
+            <option value="">— none —</option>
+            <option>Supply Chain &amp; Manufacturing</option>
+            <option>Finance &amp; ERP</option>
+            <option>S/4HANA Migration</option>
+            <option>HR &amp; Workforce</option>
+            <option>AI &amp; Business Transformation</option>
+            <option>Analytics &amp; Business Intelligence</option>
+            <option>Customer Experience (CX)</option>
+            <option>Procurement &amp; Spend Management</option>
+            <option>Asset Management</option>
+            <option>Sustainability &amp; ESG</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="f">
+        <div class="fl">Sequence type</div>
+        <div class="pills" id="seq-type">
+          <button class="pill on" data-val="cold">Cold outreach</button>
+          <button class="pill" data-val="reactivate">Reactivation</button>
+          <button class="pill" data-val="followup">Follow-up</button>
+        </div>
+      </div>
+
+      <div class="f">
+        <div class="fl">Email style examples <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— paste so Claude matches your team's tone</span></div>
+        <textarea id="email-examples" rows="4" placeholder="Paste example sequences from your team here. Claude will match this tone exactly..."></textarea>
+      </div>
+
+      <div class="f">
+        <div class="fl">Additional context <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— optional</span></div>
+        <textarea id="extra-ctx" rows="2" placeholder="e.g. We recently closed a deal with a similar steel company. Focus on ROI."></textarea>
+      </div>
+    </div>
+
+    <div class="gen-card">
+      <div class="card-head"><div class="sn">4</div><div class="ct">Generate sequences</div></div>
+      <div class="gen-desc">Claude will search for news and podcasts on each account, then write personalized 3-email sequences directly on this page. Allow 30–60 seconds per account.</div>
+      <div id="batch-warn"></div>
+      <div class="btn-gen-row">
+        <button class="btn-gen" id="batch-run-btn" onclick="runBatch()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7l8 0M7 3l4 4-4 4"/></svg>
+          Generate sequences
+        </button>
+        <button class="btn-ghost" onclick="clearBatch()">Clear all</button>
+      </div>
+    </div>
+
+    <div id="batch-results">
+      <div class="results-hdr">
+        <div class="results-title" id="batch-results-title">Sequences</div>
+        <button class="btn-act" id="copy-all-btn" onclick="copyAll()">Copy all sequences</button>
+      </div>
+      <div class="prog-wrap" id="batch-prog-wrap">
+        <div class="prog-bar"><div class="prog-fill" id="batch-prog-fill" style="width:0%"></div></div>
+        <div class="prog-label" id="batch-prog-label"></div>
+      </div>
+      <div id="batch-results-container"></div>
+    </div>
+  </div>
+
+  <!-- ===== PICK 1 TAB ===== -->
+  <div class="tab-content" id="tab-pick1">
+    <div class="hero">
+      <h1>Pick 1 deep dive.</h1>
+      <p>One account. Full intel. Stack-ranked compelling events — personal and account level — assembled into ready-to-send email options using Tom's framework.</p>
+    </div>
+
+    <div class="framework-box">
+      <div class="framework-title">Tom's compelling event framework</div>
+      <div class="framework-cols">
+        <div>
+          <div class="fw-col-title">Personal level</div>
+          <div class="fw-item">Came from an SAP shop</div>
+          <div class="fw-item">New to company or new to role</div>
+          <div class="fw-item">Did a podcast or interview</div>
+          <div class="fw-item">SAP experience in background</div>
+        </div>
+        <div>
+          <div class="fw-col-title">Account level</div>
+          <div class="fw-item">Growth — new product, new territory, M&amp;A</div>
+          <div class="fw-item">Expanding into new regions (especially Europe)</div>
+          <div class="fw-item">Funding received</div>
+          <div class="fw-item">Competitors already using SAP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="linkedin-box">
+      <div class="linkedin-title">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect width="13" height="13" rx="2" fill="#0077B5"/><path d="M3 5h1.5v5H3V5zm.75-2.5a.875.875 0 110 1.75.875.875 0 010-1.75zM6 5h1.4v.7h.02C7.65 5.4 8.2 5 9 5c1.6 0 1.9 1.05 1.9 2.4V10H9.4V7.7c0-.6-.01-1.35-.82-1.35-.83 0-.95.65-.95 1.31V10H6.1V5H6z" fill="white"/></svg>
+        LinkedIn Sales Navigator tip
+      </div>
+      <div class="linkedin-body">
+        Before running the deep dive, check Sales Navigator for: <strong>past companies</strong> the contact worked at (SAP shops = top tier), <strong>when they joined</strong> this company, and <strong>any shared connections</strong>. Paste what you find into the "What you already know" field below — it makes the research much sharper. Claude will also search publicly available LinkedIn profile data and career history automatically.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="sn">1</div><div class="ct">Account &amp; contact details</div></div>
+      <div class="g2">
+        <div class="f"><div class="fl">Account name</div><input type="text" id="p1-account" placeholder="e.g. Triple-S Steel Holdings" /></div>
+        <div class="f"><div class="fl">Your name</div><input type="text" id="p1-rep" placeholder="e.g. Abhigyan" /></div>
+      </div>
+      <div class="g2">
+        <div class="f">
+          <div class="fl">Contact name (if known)</div>
+          <input type="text" id="p1-contact" placeholder="e.g. John Smith" />
+        </div>
+        <div class="f">
+          <div class="fl">Contact title / persona</div>
+          <select id="p1-persona">
+            <option value="CFO">CFO</option>
+            <option value="CIO">CIO</option>
+            <option value="COO">COO</option>
+            <option value="VP of Finance">VP of Finance</option>
+            <option value="VP of IT">VP of IT</option>
+            <option value="VP of Operations">VP of Operations</option>
+            <option value="Director of IT">Director of IT</option>
+            <option value="CEO / Owner">CEO / Owner</option>
+            <option value="SVP of Finance">SVP of Finance</option>
+            <option value="SVP of Operations">SVP of Operations</option>
+          </select>
+        </div>
+      </div>
+      <div class="f">
+        <div class="fl">Industry</div>
+        <input type="text" id="p1-industry" placeholder="e.g. Mill Products and Mining" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="sn">2</div><div class="ct">SAP angle</div></div>
+      <div class="g2">
+        <div class="f">
+          <div class="fl">Primary SAP LOB</div>
+          <select id="p1-lob-primary">
+            <option value="">— select —</option>
+            <option>Supply Chain &amp; Manufacturing</option>
+            <option>Finance &amp; ERP</option>
+            <option>S/4HANA Migration</option>
+            <option>HR &amp; Workforce</option>
+            <option>AI &amp; Business Transformation</option>
+            <option>Analytics &amp; Business Intelligence</option>
+            <option>Customer Experience (CX)</option>
+            <option>Procurement &amp; Spend Management</option>
+            <option>Asset Management</option>
+            <option>Sustainability &amp; ESG</option>
+          </select>
+        </div>
+        <div class="f">
+          <div class="fl">Secondary SAP LOB <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— optional</span></div>
+          <select id="p1-lob-secondary">
+            <option value="">— none —</option>
+            <option>Supply Chain &amp; Manufacturing</option>
+            <option>Finance &amp; ERP</option>
+            <option>S/4HANA Migration</option>
+            <option>HR &amp; Workforce</option>
+            <option>AI &amp; Business Transformation</option>
+            <option>Analytics &amp; Business Intelligence</option>
+            <option>Customer Experience (CX)</option>
+            <option>Procurement &amp; Spend Management</option>
+            <option>Asset Management</option>
+            <option>Sustainability &amp; ESG</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="sn">3</div><div class="ct">What you already know</div></div>
+      <div class="f">
+        <div class="fl">Existing intel <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3);">— paste anything from Sales Navigator, ZoomInfo, prior calls</span></div>
+        <textarea id="p1-context" rows="5" placeholder="Examples of what to paste here:&#10;• Contact joined 4 months ago from Honeywell (which uses SAP)&#10;• Company on Dynamics 365, ~$500M revenue&#10;• CFO previously at Arcelor Mittal&#10;• ZoomInfo shows 20% headcount growth in last 12 months&#10;• Competitor Olympic Steel recently went live on SAP S/4HANA"></textarea>
+      </div>
+    </div>
+
+    <div class="gen-card">
+      <div class="card-head"><div class="sn">4</div><div class="ct">Run deep dive</div></div>
+      <div class="gen-desc">Claude will research this account thoroughly — news, podcasts, interviews, public career history, competitor intel — stack-rank compelling events using Tom's framework, and write email options using the 2-sentence, 2-paragraph, ask structure.</div>
+      <div id="p1-warn"></div>
+      <div class="btn-gen-row">
+        <button class="btn-gen" id="p1-run-btn" onclick="runPick1()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5"/></svg>
+          Run deep dive
+        </button>
+        <button class="btn-ghost" onclick="clearPick1()">Clear</button>
+      </div>
+    </div>
+
+    <div id="pick1-results"></div>
+  </div>
+
+</div>
+
+<footer>SAP America &nbsp;&middot;&nbsp; Tom Kizirian's team &nbsp;&middot;&nbsp; Internal use only &nbsp;&middot;&nbsp; No data stored beyond your browser session</footer>
+
+<script>
+// ===== CLOUDFLARE WORKER URL =====
+// Replace this with your actual Worker URL after setup
+const WORKER_URL = 'https://sap-outreach-proxy.abhigyan-singhal.workers.dev';
+
+async function callClaude(systemPrompt, userPrompt) {
+  const res = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system: systemPrompt, user: userPrompt })
+  });
+  if (!res.ok) {
+    const e = await res.json().catch(()=>({}));
+    throw new Error(e.error || `Request failed (${res.status})`);
+  }
+  const data = await res.json();
+  return data.content || '';
+}
+
+// ===== TABS =====
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ===== PILLS =====
+document.getElementById('personas').addEventListener('click', e=>{ const p=e.target.closest('.pill'); if(p) p.classList.toggle('on'); });
+document.getElementById('seq-type').addEventListener('click', e=>{
+  const p=e.target.closest('.pill'); if(!p) return;
+  document.querySelectorAll('#seq-type .pill').forEach(b=>b.classList.remove('on'));
+  p.classList.add('on');
+});
+
+function getOnPills(id){ return Array.from(document.querySelectorAll(`#${id} .pill.on`)).map(b=>b.dataset.val); }
+function getOnePill(id){ const a=document.querySelector(`#${id} .pill.on`); return a?a.dataset.val:''; }
+
+// ===== ACCOUNTS =====
+let accounts=[];
+
+function addAccount(){
+  const el=document.getElementById('acct-name'), name=el.value.trim();
+  if(!name) return;
+  if(accounts.find(a=>a.name.toLowerCase()===name.toLowerCase())){ el.value=''; return; }
+  accounts.push({name, status:document.getElementById('acct-status').value, notes:document.getElementById('acct-notes').value.trim()});
+  el.value=''; document.getElementById('acct-notes').value=''; el.focus();
+  renderTags();
+}
+
+document.getElementById('acct-name').addEventListener('keydown', e=>{ if(e.key==='Enter') addAccount(); });
+function removeAccount(i){ accounts.splice(i,1); renderTags(); }
+
+function renderTags(){
+  const el=document.getElementById('tags');
+  document.getElementById('acct-count').textContent=accounts.length+' account'+(accounts.length!==1?'s':'');
+  if(!accounts.length){ el.innerHTML='<span style="font-size:12px;color:var(--ink3);">Accounts appear here once added.</span>'; return; }
+  el.innerHTML=accounts.map((a,i)=>`
+    <span class="tag">
+      <span class="ts ${a.status==='Net New'?'nn':'do'}">${a.status==='Net New'?'NN':'DO'}</span>
+      ${esc(a.name)}
+      <button class="tx-btn" onclick="removeAccount(${i})">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"/></svg>
+      </button>
+    </span>`).join('');
+}
+
+function importBulk(){
+  const raw=document.getElementById('bulk-paste').value.trim(); if(!raw) return;
+  raw.split('\n').filter(l=>l.trim()).forEach(line=>{
+    const parts=line.split(',').map(p=>p.trim()), name=parts[0];
+    if(!name||accounts.find(a=>a.name.toLowerCase()===name.toLowerCase())) return;
+    const s=(parts[1]||'').toLowerCase();
+    const status=s.includes('dormant')?'Dormant':'Net New';
+    const notes=(s.includes('dormant')||s.includes('net'))?parts.slice(2).join(', '):parts.slice(1).join(', ');
+    accounts.push({name,status,notes:notes.trim()});
+  });
+  document.getElementById('bulk-paste').value='';
+  renderTags();
+}
+
+// ===== BATCH =====
+const SEQ_DESC={ cold:'cold outreach to a net new prospect', reactivate:'reactivation of a dormant account', followup:'follow-up to prior outreach' };
+
+const STYLE_EXAMPLES=`---
+Hi Thomas,
+I'm reaching out from the BKV Group account team at SAP. We help services firms with AI integration, personalized service delivery, and boosting efficiency.
+This recent POV highlights how customers like Ameri100 and Phoenix Global use our solutions to reduce operational costs by 25%, improve delivery performance by 30%, and enhance data quality for AI initiatives.
+I'm looking to set up time for a no-cost analysis of your finance/operations processes focused on working capital optimization and strategic AI integration.
+Do either of the following dates work?
+* Next Monday (afternoon)
+* Next Tuesday (all day)
+Thanks in advance, [Rep]
+---
+Hi Nicolas,
+Hope all is well. I wanted to reach out due to my recent alignment on the account team here at SAP. Not looking to throw anything at you — more on the lines of connecting and letting you use me as a resource for any needs now or later.
+Many leaders I speak with are re-evaluating whether their current tech gives them the visibility and agility to scale, especially around automating manual processes, reducing silos, and getting real-time insights.
+Would sometime next week work for a 15-minute intro call?
+Best, [Rep]
+---
+Hi Jose,
+I wasn't sure if you saw my previous note. We've been having great conversations with companies about how scenario modeling and machine learning can help build a smarter organization.
+I wanted to discuss how you folks are utilizing your data to guide strategic initiatives. Please let me know if you have time for a quick chat.
+Respectfully, [Rep]
+---
+Hi Jose,
+I've been struggling to make contact. Given your lack of response, I can only assume you don't see value in connecting right now, or my timing is off. If it's the latter, let me know when works better. Either way, best of luck!
+Thanks, [Rep]
+---`;
+
+async function runBatch(){
+  const repName=document.getElementById('rep-name').value.trim()||'the rep';
+  const industry=document.getElementById('industry').value.trim()||'your industry';
+  const examples=document.getElementById('email-examples').value.trim();
+  const extra=document.getElementById('extra-ctx').value.trim();
+  const personas=getOnPills('personas');
+  const lobPrimary=document.getElementById('lob-primary').value;
+  const lobSecondary=document.getElementById('lob-secondary').value;
+  const lobs=[lobPrimary, lobSecondary].filter(Boolean);
+  const seqType=getOnePill('seq-type');
+  const warn=document.getElementById('batch-warn');
+
+  if(!accounts.length){ warn.innerHTML='<div class="warn">Add at least one account before generating.</div>'; return; }
+  if(!personas.length){ warn.innerHTML='<div class="warn">Select at least one persona.</div>'; return; }
+  if(!lobPrimary){ warn.innerHTML='<div class="warn">Select a primary SAP line of business.</div>'; return; }
+  warn.innerHTML='';
+
+  const btn=document.getElementById('batch-run-btn');
+  btn.disabled=true; btn.textContent='Generating...';
+  document.getElementById('batch-results').style.display='block';
+
+  const container=document.getElementById('batch-results-container');
+  const progWrap=document.getElementById('batch-prog-wrap');
+  const progFill=document.getElementById('batch-prog-fill');
+  const progLabel=document.getElementById('batch-prog-label');
+
+  progWrap.style.display='block';
+  container.innerHTML='';
+  document.getElementById('batch-results-title').textContent=`Sequences — ${accounts.length} account${accounts.length!==1?'s':''}`;
+
+  const styleSection=examples
+    ? `\nSTYLE EXAMPLES — match this tone exactly:\n---\n${examples}\n---`
+    : `\nSTYLE EXAMPLES — match this tone exactly:\n${STYLE_EXAMPLES}`;
+
+  for(let i=0;i<accounts.length;i++){
+    const acct=accounts[i];
+    const bodyId=`rbody-${i}`;
+    progFill.style.width=`${Math.round((i/accounts.length)*100)}%`;
+    progLabel.textContent=`Researching ${acct.name}...`;
+
+    container.innerHTML+=`
+      <div class="acct-result" id="rcard-${i}">
+        <div class="acct-result-hdr" onclick="toggleBody('${bodyId}',this)">
+          <div class="avatar">${esc(initials(acct.name))}</div>
+          <div><div class="acct-rname">${esc(acct.name)}</div><div class="acct-rmeta">${acct.status}${acct.notes?' · '+esc(acct.notes):''}</div></div>
+          <div class="chev open" id="chev-${i}">▼</div>
+        </div>
+        <div class="acct-rbody open" id="${bodyId}">
+          <span style="font-size:12px;color:var(--ink2);">Researching ${esc(acct.name)}<span class="dot"></span></span>
+        </div>
+      </div>`;
+
+    document.getElementById(`rcard-${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+
+    if(i>0) await new Promise(r=>setTimeout(r,3000));
+
+    const userPrompt=`You are writing outreach emails for ${repName} at SAP America, Tom Kizirian's team. Industry: ${industry}.
+
+ACCOUNT: ${acct.name} [${acct.status}]${acct.notes?' | Notes: '+acct.notes:''}
+Personas (pick best fit): ${personas.join(', ')}
+SAP LOBs: ${lobs.join(' and ')}
+Sequence type: ${SEQ_DESC[seqType]}
+${extra?'Additional context: '+extra:''}
+
+STEP 1 — Search for news on ${acct.name} from the last 90 days: earnings, leadership changes, expansions, acquisitions, ERP investments, industry pressures.
+
+STEP 2 — Search for podcasts, interviews, or speaking appearances by executives at ${acct.name}. Search: "${acct.name} podcast", "${acct.name} CEO interview", "${acct.name} CFO interview", "${acct.name} keynote". Note any exec quotes about strategy or technology challenges.
+
+STEP 3 — Write a 1-2 sentence brief: best intel found, business challenge it creates, SAP relevance, persona and LOB selected.
+
+STEP 4 — Write a 3-email sequence. CRITICAL RULE — the insight bridge: every email must follow HOOK (news or exec quote) → SO WHAT (business challenge this creates) → SAP RELEVANCE (where SAP helped similar companies) → soft ask. Never jump from news to meeting request.
+
+- Email 1 (Day 1): warm intro + SAP account team alignment. Best hook first. Insight bridge. 15-min ask with 2 time options. Under 130 words.
+- Email 2 (Day 3): different angle — SAP customer result from similar company or specific LOB capability. Insight bridge. Under 100 words.
+- Email 3 (Day 8): short honest breakup. Under 60 words.
+- Sign: ${repName}. Subject lines specific to company or news. Never: "synergy", "circle back", "touch base".
+${styleSection}
+
+OUTPUT FORMAT:
+BRIEF: [brief]
+PERSONA: [chosen persona]
+EMAIL 1 SUBJECT: [subject]
+EMAIL 1 BODY:
+[body]
+EMAIL 2 SUBJECT: [subject]
+EMAIL 2 BODY:
+[body]
+EMAIL 3 SUBJECT: [subject]
+EMAIL 3 BODY:
+[body]`;
+
+    try{
+      const text=await callClaude('You are a senior SAP SDR on Tom Kizirian\'s team. You write warm, direct, peer-level emails. You always connect news to a business challenge to SAP relevance before asking for a meeting.', userPrompt);
+      renderBatchResult(bodyId, acct, text, i);
+    }catch(err){
+      document.getElementById(bodyId).innerHTML=`<div class="err">Could not generate sequence for ${esc(acct.name)}: ${esc(err.message)}</div>`;
+    }
+  }
+
+  progFill.style.width='100%';
+  progLabel.textContent='All done.';
+  setTimeout(()=>{ progWrap.style.display='none'; },1500);
+  btn.disabled=false; btn.textContent='Regenerate all';
+}
+
+function renderBatchResult(bodyId, acct, text, idx){
+  const el=document.getElementById(bodyId);
+  const brief=(text.match(/BRIEF:\s*([\s\S]*?)(?=PERSONA:|EMAIL 1 SUBJECT:|$)/i)||[])[1]||'';
+  const persona=(text.match(/PERSONA:\s*(.+)/i)||[])[1]||'';
+  const e1s=(text.match(/EMAIL 1 SUBJECT:\s*(.+)/i)||[])[1]||'';
+  const e1b=(text.match(/EMAIL 1 BODY:\s*([\s\S]*?)(?=EMAIL 2 SUBJECT:|$)/i)||[])[1]||'';
+  const e2s=(text.match(/EMAIL 2 SUBJECT:\s*(.+)/i)||[])[1]||'';
+  const e2b=(text.match(/EMAIL 2 BODY:\s*([\s\S]*?)(?=EMAIL 3 SUBJECT:|$)/i)||[])[1]||'';
+  const e3s=(text.match(/EMAIL 3 SUBJECT:\s*(.+)/i)||[])[1]||'';
+  const e3b=(text.match(/EMAIL 3 BODY:\s*([\s\S]*?)$/i)||[])[1]||'';
+  const emails=[
+    {label:'Email 1',day:'Day 1',subject:e1s.trim(),body:e1b.trim()},
+    {label:'Email 2',day:'Day 3',subject:e2s.trim(),body:e2b.trim()},
+    {label:'Email 3',day:'Day 8',subject:e3s.trim(),body:e3b.trim()}
+  ];
+  let html='';
+  if(brief.trim()) html+=`<div class="brief-box">${esc(brief.trim())}${persona?' — Targeting: '+esc(persona.trim()):''}</div>`;
+  emails.forEach((em,ei)=>{
+    if(!em.body) return;
+    html+=`<div class="email-card">
+      <div class="email-hdr">
+        <div class="email-lbl">${em.label} · ${em.day}</div>
+        ${em.subject?`<div class="email-subj-prev">Subject: ${esc(em.subject)}</div>`:''}
+        <button class="ecopy" id="ec-${idx}-${ei}" onclick="copyEmail(${idx},${ei})">Copy</button>
+      </div>
+      ${em.subject?`<div class="email-subj-full">Subject: ${esc(em.subject)}</div>`:''}
+      <div class="email-body" id="eb-${idx}-${ei}">${esc(em.body)}</div>
+    </div>`;
+  });
+  if(!html) html=`<div style="font-size:12px;color:var(--ink2);white-space:pre-wrap;">${esc(text)}</div>`;
+  el.innerHTML=html;
+}
+
+// ===== PICK 1 =====
+async function runPick1(){
+  const account=document.getElementById('p1-account').value.trim();
+  const repName=document.getElementById('p1-rep').value.trim()||'the rep';
+  const persona=document.getElementById('p1-persona').value;
+  const contact=document.getElementById('p1-contact').value.trim();
+  const industry=document.getElementById('p1-industry').value.trim()||'your industry';
+  const context=document.getElementById('p1-context').value.trim();
+  const lobPrimary=document.getElementById('p1-lob-primary').value;
+  const lobSecondary=document.getElementById('p1-lob-secondary').value;
+  const lobs=[lobPrimary,lobSecondary].filter(Boolean);
+  const warn=document.getElementById('p1-warn');
+
+  if(!account){ warn.innerHTML='<div class="warn">Enter an account name first.</div>'; return; }
+  if(!lobPrimary){ warn.innerHTML='<div class="warn">Select a primary SAP line of business.</div>'; return; }
+  warn.innerHTML='';
+
+  const btn=document.getElementById('p1-run-btn');
+  btn.disabled=true; btn.textContent='Researching...';
+
+  const results=document.getElementById('pick1-results');
+  results.style.display='block';
+  results.innerHTML=`<div class="pick1-loading">Running deep dive on ${esc(account)}<span class="dot"></span></div>`;
+
+  const firstName=contact?contact.split(' ')[0]:'[First Name]';
+
+  const userPrompt=`You are doing a deep research session on a target account for ${repName} at SAP America, Tom Kizirian's team.
+
+ACCOUNT: ${account}
+TARGET PERSONA: ${persona}
+${contact?'CONTACT NAME: '+contact:'No contact name provided — research who the likely '+persona+' is at this company.'}
+INDUSTRY: ${industry}
+SAP LOBs: ${lobs.join(' and ')}
+${context?'EXISTING INTEL FROM SALES NAV / ZOOMINFO:\n'+context:''}
+
+Run thorough research across all available sources.
+
+PERSONAL COMPELLING EVENTS — research the individual ${persona} at ${account}:
+1. Search their public career history: "${contact||persona+' '+account} LinkedIn", "${contact||''} career history". Did they come from a company that uses SAP? (e.g. large manufacturers, Fortune 500, companies known for SAP — this is top tier)
+2. Are they new to this company or new to this role? When did they join?
+3. Any podcasts, interviews, keynotes, webinars? Search: "${contact||account+' '+persona} interview", "${contact||account+' '+persona} podcast", "${account} ${persona} keynote 2024 2025"
+4. Any public quotes about technology strategy, digital transformation, or business priorities?
+5. SAP experience anywhere in their background?
+
+ACCOUNT COMPELLING EVENTS — research ${account}:
+1. Revenue growth, new product launches, entry into new markets or territories (especially international — this is top tier)
+2. Mergers, acquisitions, or being acquired
+3. Funding rounds or PE/VC backing
+4. Headcount growth (signals scaling and systems pain)
+5. Competitors in ${industry} that already use SAP solutions — search "${industry} companies using SAP", "SAP customers ${industry}"
+6. ERP modernization, digital transformation, or technology investment news
+7. Leadership changes suggesting a tech review cycle
+
+SECTION 1 — STACK RANKED COMPELLING EVENTS
+List every compelling event found. Rank by strength. For each:
+RANK: [number]
+TYPE: Personal or Account
+CATEGORY: [Podcast/Interview | New to Role | Came from SAP Shop | Growth — New Territory | M&A | Funding | Competitor on SAP | ERP Investment | etc.]
+WHAT: [specific detail — name the podcast, the acquisition, the market, the quote]
+WHY IT MATTERS: [1 sentence — what business challenge or need does this signal]
+STRENGTH: Top Tier / Strong / Moderate
+
+SECTION 2 — EMAIL OPTIONS
+Write 3 email options. Each uses Tom's structure: 2 sentences per paragraph, 2 paragraphs, one-line ask. Each uses a DIFFERENT combination of compelling events. Subject line should reference the specific event (podcast name, interview, milestone).
+
+EMAIL OPTION 1: [Personal Event] + [Account Event]
+Subject: [specific subject — name the podcast/interview/milestone]
+
+Hi ${firstName},
+
+[2 sentences — personal compelling event. Reference specifically what you found. Make them feel you did real homework.]
+
+[2 sentences — account compelling event connected to why SAP is relevant. Don't pitch. Connect the dots — their situation → the challenge it creates → where SAP has helped companies in that exact situation.]
+
+[One-line soft ask — e.g. "Would you be the right person to chat with regarding software initiatives?" or "Is now a good time to connect?"]
+
+Thanks in advance,
+${repName}
+
+---
+
+EMAIL OPTION 2: [Different combination]
+Subject: [different angle]
+
+[same structure]
+
+---
+
+EMAIL OPTION 3: [Third combination or single event if only one type found]
+Subject: [different angle]
+
+[same structure]
+
+SECTION 3 — FALLBACK NOTE
+If limited compelling events were found: briefly note what outreach angle would work best given what IS available (industry trend, role-based pain point, etc.) and suggest the rep use a standard team sequence as the base. Do NOT say to avoid the account — every account is worth reaching out to. The fallback is just a different angle, not a dead end.`;
+
+  try{
+    const text=await callClaude('You are a senior SAP sales researcher and strategist. You do deep account and contact research to find compelling events following Tom Kizirian\'s framework: personal level (SAP background, new to role, podcast/interview) and account level (growth, M&A, funding, competitors on SAP). You stack-rank them by strength and assemble them into short 2-sentence, 2-paragraph, ask emails. Everything you write is specific — you never write generic outreach.', userPrompt);
+    renderPick1Results(account, text, contact, firstName);
+  }catch(err){
+    results.innerHTML=`<div class="err">Research failed: ${esc(err.message)}</div>`;
+  }
+
+  btn.disabled=false; btn.textContent='Run deep dive';
+}
+
+function renderPick1Results(account, text, contact, firstName){
+  const results=document.getElementById('pick1-results');
+  const section1=(text.match(/SECTION 1[^\n]*\n([\s\S]*?)(?=SECTION 2|$)/i)||[])[1]||'';
+  const section2=(text.match(/SECTION 2[^\n]*\n([\s\S]*?)(?=SECTION 3|$)/i)||[])[1]||'';
+  const section3=(text.match(/SECTION 3[^\n]*\n([\s\S]*?)$/i)||[])[1]||'';
+
+  const emailOptions=[];
+  const emailMatches=section2.matchAll(/EMAIL OPTION (\d+)[^\n]*\n([\s\S]*?)(?=EMAIL OPTION \d+|---\s*\n*EMAIL OPTION|$)/gi);
+  for(const m of emailMatches){ emailOptions.push({num:m[1],body:m[2].trim()}); }
+
+  let html=`<div style="margin-bottom:1.5rem;">
+    <div style="font-size:18px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px;">Deep dive: ${esc(account)}</div>
+    <div style="font-size:13px;color:var(--ink2);">Research complete — compelling events ranked, email options ready</div>
+  </div>`;
+
+  if(section1.trim()){
+    html+=`<div class="intel-section"><div class="intel-section-title">Stack-ranked compelling events</div>
+    <div class="card" style="padding:1rem 1.25rem;"><pre style="font-size:12px;line-height:1.8;color:var(--ink);white-space:pre-wrap;font-family:var(--font);">${esc(section1.trim())}</pre></div></div>`;
+  }
+
+  if(emailOptions.length){
+    html+=`<div class="intel-section"><div class="intel-section-title">Email options — Tom's framework</div>`;
+    emailOptions.forEach((em,i)=>{
+      const subjectMatch=em.body.match(/Subject:\s*(.+)/i);
+      const subject=subjectMatch?subjectMatch[1].trim():'';
+      const bodyText=em.body.replace(/Subject:[^\n]+\n?/i,'').trim();
+      html+=`<div class="email-option">
+        <div class="email-option-hdr">
+          <div>
+            <div class="email-option-label">Option ${em.num}</div>
+            <div style="font-size:11px;color:var(--ink2);margin-top:2px;">2 sentences · 2 paragraphs · ask</div>
+          </div>
+          <button class="email-option-copy" id="p1ec-${i}" onclick="copyPick1Email(${i})">Copy email</button>
+        </div>
+        <div class="email-option-body">
+          ${subject?`<div class="email-option-subject">Subject: ${esc(subject)}</div>`:''}
+          <div class="email-option-text" id="p1eb-${i}">${esc(bodyText)}</div>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+
+  if(section3.trim()){
+    html+=`<div class="card" style="background:var(--paper2);border-color:var(--rule2);">
+      <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">If no compelling events found — fallback angle</div>
+      <div style="font-size:13px;color:var(--ink2);line-height:1.6;">${esc(section3.trim())}</div>
+    </div>`;
+  }
+
+  if(!section1&&!emailOptions.length){
+    html+=`<div class="card"><pre style="font-size:12px;line-height:1.75;color:var(--ink);white-space:pre-wrap;font-family:var(--font);">${esc(text)}</pre></div>`;
+  }
+
+  results.innerHTML=html;
+}
+
+// ===== HELPERS =====
+function copyEmail(ai,ei){
+  const el=document.getElementById(`eb-${ai}-${ei}`), btn=document.getElementById(`ec-${ai}-${ei}`); if(!el) return;
+  navigator.clipboard.writeText(el.textContent.trim()).then(()=>{ btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent='Copy'; btn.classList.remove('copied'); },1800); });
+}
+function copyPick1Email(i){
+  const el=document.getElementById(`p1eb-${i}`), btn=document.getElementById(`p1ec-${i}`); if(!el) return;
+  navigator.clipboard.writeText(el.textContent.trim()).then(()=>{ btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent='Copy email'; btn.classList.remove('copied'); },1800); });
+}
+function copyAll(){
+  let out='';
+  accounts.forEach((a,i)=>{
+    out+=`\n\n=== ${a.name} ===\n`;
+    [0,1,2].forEach(ei=>{ const el=document.getElementById(`eb-${i}-${ei}`); if(el) out+=`\n[Email ${ei+1}]\n${el.textContent.trim()}\n`; });
+  });
+  navigator.clipboard.writeText(out.trim()).then(()=>{ const btn=document.getElementById('copy-all-btn'); btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent='Copy all sequences'; btn.classList.remove('copied'); },1800); });
+}
+function toggleBody(bodyId,hdr){ const b=document.getElementById(bodyId), c=hdr.querySelector('.chev'); b.classList.toggle('open'); if(c) c.classList.toggle('open'); }
+function clearBatch(){
+  accounts=[]; renderTags();
+  ['rep-name','industry','email-examples','extra-ctx','bulk-paste'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('batch-warn').innerHTML='';
+  document.getElementById('batch-results').style.display='none';
+  document.getElementById('batch-results-container').innerHTML='';
+  document.getElementById('batch-run-btn').disabled=false;
+  document.getElementById('batch-run-btn').textContent='Generate sequences';
+}
+function clearPick1(){
+  ['p1-account','p1-rep','p1-contact','p1-industry','p1-context'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('p1-warn').innerHTML='';
+  document.getElementById('pick1-results').style.display='none';
+  document.getElementById('pick1-results').innerHTML='';
+  document.getElementById('p1-run-btn').disabled=false;
+  document.getElementById('p1-run-btn').textContent='Run deep dive';
+}
+function initials(n){ const p=n.trim().split(/\s+/); return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():n.slice(0,2).toUpperCase(); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>
